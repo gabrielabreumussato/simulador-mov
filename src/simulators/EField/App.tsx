@@ -1323,25 +1323,15 @@ export default function App() {
 
   const onTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
     const touch = e.touches[0];
-    const canvas = canvasRef.current; if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const sx = touch.clientX - rect.left, sy = touch.clientY - rect.top;
-    
-    // Simular o MouseDown para reaproveitar a lógica
     const mouseEvent = { clientX: touch.clientX, clientY: touch.clientY } as any;
     onMouseDown(mouseEvent);
   };
 
   const onTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
-    // Impedir scroll da página durante o arraste
+    const touch = e.touches[0];
     if (dragging.current || dragChargeId || dragPlate || dragCond || dragProbeId || dragFromPalette) {
       if (e.cancelable) e.preventDefault();
     }
-    
-    const touch = e.touches[0];
-    const canvas = canvasRef.current; if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    
     const mouseEvent = { clientX: touch.clientX, clientY: touch.clientY } as any;
     onMouseMove(mouseEvent);
   };
@@ -2218,7 +2208,7 @@ if (showLines && (charges.length > 0 || plates.length > 0 || condMeshes.length >
   }, [size, pxPerUnit, center, density, charges, plates, probes, conductors, condMeshes, showResultant, showIndividuals, showLines, zoomScale, hoverRadiusHandle, showPotential, showEquip, isRealVectors]);
 
   return (
-    <div className="w-screen h-screen flex flex-col lg:grid lg:grid-cols-[1fr_22rem] gap-2 p-2 bg-[#0a0e13] text-slate-200 select-none overflow-hidden">
+    <div className="w-screen h-screen flex flex-col lg:grid lg:grid-cols-[1fr_22rem] landscape:grid landscape:grid-cols-[1fr_22rem] gap-2 p-2 bg-[#0a0e13] text-slate-200 select-none overflow-hidden">
       {/* Área do canvas */}
       <div className="relative flex-1 rounded-2xl ring-1 ring-slate-800 shadow-lg overflow-hidden min-h-[50vh]">
         <canvas
@@ -2236,7 +2226,7 @@ if (showLines && (charges.length > 0 || plates.length > 0 || condMeshes.length >
       </div>
 
       {/* Painel lateral / Inferior */}
-      <div className="w-full lg:w-[22rem] h-auto lg:h-full flex flex-col gap-3 overflow-y-auto pb-4 lg:pb-0">
+      <div className="w-full lg:w-[22rem] landscape:w-[22rem] h-auto lg:h-full landscape:h-full flex flex-col gap-3 overflow-y-auto pb-4 lg:pb-0">
         <div className="rounded-2xl p-3 bg-[#0f1520] ring-1 ring-slate-800 shadow">
           <div className="flex items-center justify-between mb-2">
             <h3 className="font-semibold">Campo</h3>
